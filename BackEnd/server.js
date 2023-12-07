@@ -75,14 +75,15 @@ app.get('/api/dashboard', async (req, res) => {
 
     // Most expensive scooter
     const mostExpensiveScooter = await scooterModel.findOne().sort({ price: -1 });
-    console.log(mostExpensiveScooter);
+    const cheapestScooter = await scooterModel.findOne().sort({ price: 1 });
     // Average price of all scooters
     //const averagePrice = await scooterModel.aggregate([{ $group: { _id: null, avgPrice: { $avg: "$price" } } }]);
     //console.log(averagePrice);
     res.json({
       totalScooters,
       mostExpensiveScooter,
-      averagePrice: averagePrice[0].avgPrice
+      cheapestScooter,
+      //averagePrice: averagePrice[0].avgPrice
     });
   } catch (error) {
     console.error(error);

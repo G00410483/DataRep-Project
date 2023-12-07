@@ -17,24 +17,33 @@ const Dashboard = () => {
 
   return (
     <div className="d-flex justify-content-center align-items-center">
-      <Card style={{ width: '25rem', margin: '5rem' }}>
-        <Card.Body>
-          <Card.Title><h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>DASHBOARD</h4></Card.Title>
-          <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
-          <Card.Text>
-            Total Scooters: {dashboardData.totalScooters}
-          </Card.Text>
-        </Card.Body>
-      </Card>
-      <Card style={{ width: '25rem', margin: '5rem' }}>
-        <Card.Body>
-          <Card.Title><h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>{dashboardData.mostExpensiveScooter.title}</h4></Card.Title>
-          <Card.Subtitle className="mb-2 text-muted">Most Expensive</Card.Subtitle>
-          <Card.Text>
-            Total Scooters: {dashboardData.totalScooters}
-          </Card.Text>
-        </Card.Body>
-      </Card>
+      <div>
+        <Card style={{ width: '25rem', margin: '1rem' }}>
+          <Card.Body>
+            <Card.Title><h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>DASHBOARD</h4></Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
+            <Card.Text>
+              Total Scooters: {dashboardData.totalScooters}
+            </Card.Text>
+          </Card.Body>
+        </Card>
+        {dashboardData.mostExpensiveScooter && (
+          <Card style={{ width: '25rem', margin: '1rem' }}>
+            <Card.Body>
+              <Card.Title><h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>{dashboardData.mostExpensiveScooter.title}</h4></Card.Title>
+              <Card.Subtitle className="mb-2 text-muted">Most Expensive</Card.Subtitle>
+            </Card.Body>
+          </Card>
+        )}
+        {dashboardData.cheapestScooter && (
+          <Card style={{ width: '25rem', margin: '1rem' }}>
+            <Card.Body>
+              <Card.Title><h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>{dashboardData.cheapestScooter.title}</h4></Card.Title>
+              <Card.Subtitle className="mb-2 text-muted">Cheapest</Card.Subtitle>
+            </Card.Body>
+          </Card>
+        )}
+      </div>
     </div>
   );
 };
