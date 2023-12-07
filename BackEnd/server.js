@@ -38,25 +38,21 @@ const scooterSchema = new mongoose.Schema({
   description: String
 });
 
-
 const scooterModel = mongoose.model('ScooterModel', scooterSchema);
-
 
 app.delete('/api/scooter/:id', async (req, res) => {
   console.log("Delete: " + req.params.id)
 
-
   let scooter = await scooterModel.findByIdAndDelete(req.params.id);
   res.send(scooter);
-})
-
+});
 
 app.put('/api/scooter/:id', async (req, res) => {
   console.log("Update: " + req.params.id);
 
   let scooter = await scooterModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
   res.send(scooter);
-})
+});
 
 app.post('/api/scooter', (req, res) => {
   console.log(req.body);
@@ -70,55 +66,43 @@ app.post('/api/scooter', (req, res) => {
   })
     .then(() => { res.send("NEW SCOOTER CREATED") })
     .catch(() => { res.send("SCOOTER NOT CREATED") });
-})
+});
 
 app.get('/api/dashboard', async (req, res) => {
   try {
     // Total count of scooters
     const totalScooters = await scooterModel.countDocuments({});
 
-    // Recently added scooters with brand "Segway"
-    const recentlyAddedScooters = await scooterModel.find({ brand: "Segway" });
-
-    // Calculate average price using aggregation framework
-    console.log("Before aggregation pipeline");
-    const averagePriceResult = await scooterModel.aggregate([
-      {
-        $group: {
-          _id: null,
-          averagePrice: { $avg: "$price" }
-        }
-      }
-    ]).exec();
-    console.log("After aggregation pipeline", averagePriceResult);
-
-
-
-    // Extract the average price from the result
-    const averagePrice = averagePriceResult.length > 0 ? averagePriceResult[0].averagePrice : 0;
-    console.log(averagePrice);
-    res.json({ totalScooters, recentlyAddedScooters, averagePrice });
+    // Most expensive scooter
+    const mostExpensiveScooter = await scooterModel.findOne().sort({ price: -1 });
+    console.log(mostExpensiveScooter);
+    // Average price of all scooters
+    //const averagePrice = await scooterModel.aggregate([{ $group: { _id: null, avgPrice: { $avg: "$price" } } }]);
+    //console.log(averagePrice);
+    res.json({
+      totalScooters,
+      mostExpensiveScooter,
+      averagePrice: averagePrice[0].avgPrice
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-
 app.get('/api/scooters', async (req, res) => {
-
   let scooters = await scooterModel.find({});
   res.json(scooters);
-})
+});
 
 app.get('/api/scooter/:identifier', async (req, res) => {
   console.log(req.params.identifier);
 
   let scooter = await scooterModel.findById(req.params.identifier);
   res.send(scooter);
-})
+});
 
 // Starting the server and listening on the specified port
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
-})
+});

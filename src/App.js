@@ -1,6 +1,5 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -9,7 +8,7 @@ import Create from './components/create';
 import Read from './components/read';
 import Edit from './components/edit';
 import Content from './components/content';
-import Dashboard from './components/dashboard'; // Import the Dashboard component
+import Dashboard from './components/dashboard'; 
 
 
 function App() {
@@ -32,7 +31,6 @@ function App() {
         <Route path='/read' element={<Read></Read>}></Route>
         <Route path='/create' element={<Create></Create>}></Route>
         <Route path='/edit/:id' element={<Edit></Edit>}></Route>
-        <Route path='/dashboard' element={<Dashboard></Dashboard>}></Route>
         <Route path='/dashboard' element={<Dashboard></Dashboard>}></Route>
       </Routes>
     </div>

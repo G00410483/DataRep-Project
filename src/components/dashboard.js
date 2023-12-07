@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Card from 'react-bootstrap/Card';
 
 const Dashboard = () => {
   const [dashboardData, setDashboardData] = useState({});
@@ -15,20 +16,26 @@ const Dashboard = () => {
   }, []);
 
   return (
-    
-    <div>
-      <hr></hr>
-      <h4 style={{ textAlign: 'center', lineHeight: '1.5'  }}>DASHBOARD</h4>
-      <hr></hr>
-      <p>Total Scooters: {dashboardData.totalScooters}</p>
-      <p>Average Price: {dashboardData.averagePrice}</p>
-      <h3>Recently Added Scooters:</h3>
-      <ul>
-        {dashboardData.recentlyAddedScooters && dashboardData.recentlyAddedScooters.map((scooter) => (
-          <li key={scooter._id}>{scooter.title}{scooter.cover}</li>
-        ))}
-      </ul>
-    </div> 
+    <div className="d-flex justify-content-center align-items-center">
+      <Card style={{ width: '25rem', margin: '5rem' }}>
+        <Card.Body>
+          <Card.Title><h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>DASHBOARD</h4></Card.Title>
+          <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
+          <Card.Text>
+            Total Scooters: {dashboardData.totalScooters}
+          </Card.Text>
+        </Card.Body>
+      </Card>
+      <Card style={{ width: '25rem', margin: '5rem' }}>
+        <Card.Body>
+          <Card.Title><h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>{dashboardData.mostExpensiveScooter.title}</h4></Card.Title>
+          <Card.Subtitle className="mb-2 text-muted">Most Expensive</Card.Subtitle>
+          <Card.Text>
+            Total Scooters: {dashboardData.totalScooters}
+          </Card.Text>
+        </Card.Body>
+      </Card>
+    </div>
   );
 };
 
