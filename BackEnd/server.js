@@ -87,9 +87,9 @@ app.get('/api/dashboard', async (req, res) => {
     // Total count of scooters
     const totalScooters = await scooterModel.countDocuments({});
     // Most expensive scooter
-    const mostExpensiveScooter = await scooterModel.findOne().sort({ price: -1 });
+    const mostExpensiveScooter = await scooterModel.findOne().sort({ price: 1 });
     // Cheapest scooter
-    const cheapestScooter = await scooterModel.findOne().sort({ price: 1 });
+    const cheapestScooter = await scooterModel.findOne().sort({ price: -1 });
     // Recently added scooters
     const recentlyAddedScooters = await scooterModel.find({}).sort({ _id: -1 }).limit(2);
 

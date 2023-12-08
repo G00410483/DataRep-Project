@@ -1,19 +1,26 @@
+// Importing necessary dependencies from React, axios, and Bootstrap
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Card from 'react-bootstrap/Card';
 
+// Functional component for the Dashboard
 const Dashboard = () => {
+  // State to store dashboard data
   const [dashboardData, setDashboardData] = useState({});
 
+  // useEffect hook to fetch data from the server when the component mounts
   useEffect(() => {
     axios.get('http://localhost:4000/api/dashboard')
       .then((response) => {
+        // Update the state with the fetched data
         setDashboardData(response.data);
       })
       .catch((error) => {
+        // Log any errors that occur during the data fetch
         console.log(error);
       });
   }, []);
+
 
   return (
     <div className="d-flex justify-content-center align-items-center">
@@ -22,6 +29,7 @@ const Dashboard = () => {
           <hr></hr>
           <h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>DASHBOARD:</h4>
           <hr></hr>
+           {/* Display total scooters card if data is available */}
           {dashboardData.totalScooters && (
             <Card style={{ width: '20rem', margin: '1rem' }}>
               <Card.Body>
@@ -29,6 +37,7 @@ const Dashboard = () => {
               </Card.Body>
             </Card>
           )}
+          {/* Display most expensive scooter card if data is available */}
           {dashboardData.mostExpensiveScooter && (
             <Card style={{ width: '20rem', margin: '1rem' }}>
               <Card.Body>
@@ -37,6 +46,7 @@ const Dashboard = () => {
               </Card.Body>
             </Card>
           )}
+           {/* Display cheapest scooter card if data is available */}
           {dashboardData.cheapestScooter && (
             <Card style={{ width: '20rem', margin: '1rem' }}>
               <Card.Body>
@@ -46,6 +56,7 @@ const Dashboard = () => {
             </Card>
           )}
         </div>
+        {/* Display recently added scooters card if data is available */}
         {dashboardData.recentlyAddedScooters && (
           <Card style={{ width: '20rem', margin: '1rem' }}>
             <Card.Body>
