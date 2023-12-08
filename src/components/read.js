@@ -6,7 +6,7 @@ import axios from "axios";
 import Scooters from "./scooters";
 
 // Creating the 'Display' component
-function Display() {
+function Read() {
 
     // Using the 'useState' hook to create a state variable 'data' with an empty array as its initial value
     const [data, setData] = useState([]);
@@ -57,4 +57,4 @@ function Display() {
 
 }
 
-export default Display;
+export default Read;

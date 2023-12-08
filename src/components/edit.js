@@ -52,7 +52,7 @@ export default function Edit() {
             description: description
         }
 
-          // Making an asynchronous PUT request to update the product details on the server
+        // Making an asynchronous PUT request to update the product details on the server
         axios.put('http://localhost:4000/api/scooter/' + id, scooter)
             .then((res) => {
                 // Navigating to the 'read' page after successful update
@@ -69,7 +69,7 @@ export default function Edit() {
             <hr></hr>
             <h4 style={{ textAlign: 'center', lineHeight: '1.5'  }}>EDIT THE DETAILS OF THE PRODUCT:</h4>
             <hr></hr>
-             {/* Form for editing product details with controlled input fields */}
+            // Functional component for displaying a scooter item
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>EDIT NAME:</label>
