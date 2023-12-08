@@ -10,7 +10,6 @@ import Edit from './components/edit';
 import Content from './components/content';
 import Dashboard from './components/dashboard'; 
 
-
 function App() {
   return (
     <BrowserRouter>

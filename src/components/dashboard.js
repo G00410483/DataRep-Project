@@ -18,28 +18,44 @@ const Dashboard = () => {
   return (
     <div className="d-flex justify-content-center align-items-center">
       <div>
-        <Card style={{ width: '25rem', margin: '1rem' }}>
-          <Card.Body>
-            <Card.Title><h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>DASHBOARD</h4></Card.Title>
-            <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
-            <Card.Text>
-              Total Scooters: {dashboardData.totalScooters}
-            </Card.Text>
-          </Card.Body>
-        </Card>
-        {dashboardData.mostExpensiveScooter && (
-          <Card style={{ width: '25rem', margin: '1rem' }}>
+        <div>
+          <hr></hr>
+          <h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>DASHBOARD:</h4>
+          <hr></hr>
+          {dashboardData.totalScooters && (
+            <Card style={{ width: '20rem', margin: '1rem' }}>
+              <Card.Body>
+                <Card.Title><h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>Total Scooters: {dashboardData.totalScooters}</h4></Card.Title>
+              </Card.Body>
+            </Card>
+          )}
+          {dashboardData.mostExpensiveScooter && (
+            <Card style={{ width: '20rem', margin: '1rem' }}>
+              <Card.Body>
+                <Card.Title><h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>{dashboardData.mostExpensiveScooter.title}</h4></Card.Title>
+                <Card.Subtitle className="mb-2 text-muted">Most Expensive</Card.Subtitle>
+              </Card.Body>
+            </Card>
+          )}
+          {dashboardData.cheapestScooter && (
+            <Card style={{ width: '20rem', margin: '1rem' }}>
+              <Card.Body>
+                <Card.Title><h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>{dashboardData.cheapestScooter.title}</h4></Card.Title>
+                <Card.Subtitle className="mb-2 text-muted">Cheapest</Card.Subtitle>
+              </Card.Body>
+            </Card>
+          )}
+        </div>
+        {dashboardData.recentlyAddedScooters && (
+          <Card style={{ width: '20rem', margin: '1rem' }}>
             <Card.Body>
-              <Card.Title><h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>{dashboardData.mostExpensiveScooter.title}</h4></Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">Most Expensive</Card.Subtitle>
-            </Card.Body>
-          </Card>
-        )}
-        {dashboardData.cheapestScooter && (
-          <Card style={{ width: '25rem', margin: '1rem' }}>
-            <Card.Body>
-              <Card.Title><h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>{dashboardData.cheapestScooter.title}</h4></Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">Cheapest</Card.Subtitle>
+              <Card.Title><h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>Recently Added Scooters</h4></Card.Title>
+              <Card.Subtitle className="mb-2 text-muted">Latest Additions</Card.Subtitle>
+              <Card.Text>
+                {dashboardData.recentlyAddedScooters.map(scooter => (
+                  <div key={scooter._id}>{scooter.title}</div>
+                ))}
+              </Card.Text>
             </Card.Body>
           </Card>
         )}
