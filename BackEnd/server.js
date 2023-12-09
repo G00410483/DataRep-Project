@@ -107,13 +107,26 @@ app.get('/api/dashboard', async (req, res) => {
   }
 });
 
-// Route for retrieving all scooters
+// Route for retrieving all scooters with search functionality
 app.get('/api/scooters', async (req, res) => {
-  // Retrieve all scooters from the database
-  let scooters = await scooterModel.find({});
+  // Retrieve the search query from the request parameters
+  const searchTerm = req.query.search;
+
+  // Define the search criteria based on the title field (you can customize this)
+  // This block of code was taken from following page: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp
+  // Creating object that will be used as a filter in a MongoDB query
+  // Creating a case-insensitive regular expression based on the search term
+  const searchCriteria = searchTerm
+    ? { title: { $regex: new RegExp(searchTerm, 'i') } }
+    : {};
+
+  // Retrieve scooters from the database based on the search criteria
+  let scooters = await scooterModel.find(searchCriteria);
+
   // Respond with the list of scooters
   res.json(scooters);
 });
+
 
 // Route for retrieving a specific scooter by its identifier
 app.get('/api/scooter/:identifier', async (req, res) => {
