@@ -26,14 +26,31 @@ const Dashboard = () => {
     <div className="d-flex justify-content-center align-items-center">
       <div>
         <div>
+          
           <hr></hr>
           <h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>DASHBOARD:</h4>
           <hr></hr>
-           {/* Display total scooters card if data is available */}
+          {/* Display total scooters card if data is available */}
           {dashboardData.totalScooters && (
             <Card style={{ width: '20rem', margin: '1rem' }}>
               <Card.Body>
                 <Card.Title><h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>Total Scooters: {dashboardData.totalScooters}</h4></Card.Title>
+              </Card.Body>
+            </Card>
+          )}
+          {/* Display total price of all scooters card if data is available */}
+          {dashboardData.totalPrice && (
+            <Card style={{ width: '20rem', margin: '1rem' }}>
+              <Card.Body>
+                <Card.Title><h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>Total Price: ${dashboardData.totalPrice}</h4></Card.Title>
+              </Card.Body>
+            </Card>
+          )}
+          {/* Display total price of all scooters card if data is available */}
+          {dashboardData.totalPrice && (
+            <Card style={{ width: '20rem', margin: '1rem' }}>
+              <Card.Body>
+                <Card.Title><h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>Average Price: ${dashboardData.avgPrice}</h4></Card.Title>
               </Card.Body>
             </Card>
           )}
@@ -46,7 +63,7 @@ const Dashboard = () => {
               </Card.Body>
             </Card>
           )}
-           {/* Display cheapest scooter card if data is available */}
+          {/* Display cheapest scooter card if data is available */}
           {dashboardData.cheapestScooter && (
             <Card style={{ width: '20rem', margin: '1rem' }}>
               <Card.Body>
@@ -71,6 +88,7 @@ const Dashboard = () => {
           </Card>
         )}
       </div>
+      
     </div>
   );
 };

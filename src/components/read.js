@@ -1,6 +1,7 @@
 // Importing necessary dependencies from the 'react' library and 'axios'
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Form from 'react-bootstrap/Form';
 
 // Importing the 'Scooters' component from a local file
 import Scooters from "./scooters";
@@ -62,16 +63,20 @@ function Read() {
         <div>
             <hr></hr>
             <h2>ALL PRODUCTS</h2>
+            <br></br>
             <div>
                 {/* Search input field */}
-                <input
-                    type="text"
-                    placeholder="Search scooters..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
+                <Form>
+                    <Form.Group 
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)} 
+                        className="mb-3 d-flex justify-content-center align-items-center"
+                        controlId="exampleForm.ControlInput1">
+                        <Form.Control type="email" placeholder="Search"  style={{ width: '200px' }}/>
+                    </Form.Group>
+                </Form>
                 {/* Search button */}
-                <button onClick={handleSearch}>Search</button>
+                <button onClick={handleSearch} className="btn btn-primary">Search</button>
             </div>
             <hr></hr>
             {/* Rendering the 'Scooters' component and passing 'data' and 'ReloadData' function as props */}

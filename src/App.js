@@ -26,10 +26,10 @@ function App() {
           {/* Navigation links */}
           <Navbar.Brand href="/"></Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/create">Create</Nav.Link>
-            <Nav.Link href="/read">Read</Nav.Link>
-            <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+            <Nav.Link href="/">HOME</Nav.Link>
+            <Nav.Link href="/create">ADD</Nav.Link>
+            <Nav.Link href="/read">DISPLAY</Nav.Link>
+            <Nav.Link href="/dashboard">ANALYZE</Nav.Link>
           </Nav>
         </Container>
       </Navbar>

@@ -92,10 +92,32 @@ app.get('/api/dashboard', async (req, res) => {
     const cheapestScooter = await scooterModel.findOne().sort({ price: -1 });
     // Recently added scooters
     const recentlyAddedScooters = await scooterModel.find({}).sort({ _id: -1 }).limit(2);
+    // Calculate total price of all scooters
+    // This aggregation pipeline calculates total price of all scooters
+    // by summin up the converted numeric values of the price field
+     const totalPriceAggregate = await scooterModel.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalPrice: {
+            // Sum, conver to double and trim it
+            $sum: {
+              $toDouble: { $ifNull: [{ $trim: { input: "$price" } }, "0"] },
+            },
+          },
+        },
+      },
+    ]);
+
+    // Extract total price from the aggregate result
+    const totalPrice = totalPriceAggregate[0] ? totalPriceAggregate[0].totalPrice : 0;
+    const avgPrice = (totalPrice / totalScooters).toFixed(2);
 
     // Respond with the collected dashboard information
     res.json({
       totalScooters,
+      totalPrice,
+      avgPrice,
       mostExpensiveScooter,
       recentlyAddedScooters,
       cheapestScooter
@@ -112,10 +134,12 @@ app.get('/api/scooters', async (req, res) => {
   // Retrieve the search query from the request parameters
   const searchTerm = req.query.search;
 
-  // Define the search criteria based on the title field (you can customize this)
+  // Define the search criteria based on the title field
   // This block of code was taken from following page: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp
   // Creating object that will be used as a filter in a MongoDB query
-  // Creating a case-insensitive regular expression based on the search term
+  // Creating a case-insensitive regular expression (new RegExp(searchTerm, 'i'))
+  // i - flag that indicates
+  // ('? :') - check if searchTerm is truth of false
   const searchCriteria = searchTerm
     ? { title: { $regex: new RegExp(searchTerm, 'i') } }
     : {};
