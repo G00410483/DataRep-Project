@@ -36,7 +36,8 @@ const scooterSchema = new mongoose.Schema({
   cover: String,
   brand: String,
   price: String,
-  description: String
+  description: String,
+  stock: String
 });
 
 // Import the mongoose library to interact with MongoDB
@@ -73,8 +74,10 @@ app.post('/api/scooter', (req, res) => {
     cover: req.body.cover,
     brand: req.body.brand,
     price: req.body.price,
-    description: req.body.description
+    description: req.body.description,
+    stock: req.body.description
   })
+
      // Send a success message if the scooter is created
     .then(() => { res.send("NEW SCOOTER CREATED") })
     // Send an error message if the scooter creation fails
@@ -82,40 +85,60 @@ app.post('/api/scooter', (req, res) => {
 });
 
 // Route for retrieving dashboard information
+// Route for retrieving dashboard information
 app.get('/api/dashboard', async (req, res) => {
   try {
-    // Total count of scooters
-    const totalScooters = await scooterModel.countDocuments({});
-    // Most expensive scooter
-    const mostExpensiveScooter = await scooterModel.findOne().sort({ price: 1 });
-    // Cheapest scooter
-    const cheapestScooter = await scooterModel.findOne().sort({ price: -1 });
-    // Recently added scooters
-    const recentlyAddedScooters = await scooterModel.find({}).sort({ _id: -1 }).limit(2);
-    // Calculate total price of all scooters
-    // This aggregation pipeline calculates total price of all scooters
-    // by summin up the converted numeric values of the price field
-     const totalPriceAggregate = await scooterModel.aggregate([
+    // Calculate total price and total quantity of all scooters
+    const scooterStats = await scooterModel.aggregate([
       {
         $group: {
+          // Grouping by null- aggregating all documents together
           _id: null,
-          totalPrice: {
-            // Sum, conver to double and trim it
-            $sum: {
-              $toDouble: { $ifNull: [{ $trim: { input: "$price" } }, "0"] },
-            },
-          },
-        },
+          // Calculate price of all documents
+          totalPrice: { $sum: { $multiply: [{ $toDouble: "$price" }, { $toInt: "$stock" }] } },
+          // Calculate quantity of all documents
+          totalQuantity: { $sum: { $toInt: "$stock" } }
+        }
       },
+      {
+        $project: {
+          _id: 0, // Exclude the _id field from the result
+          totalPrice: 1, // Include totalPrice in the result
+          totalQuantity: 1 // Include total quantity in result
+        }
+      }
     ]);
 
-    // Extract total price from the aggregate result
-    const totalPrice = totalPriceAggregate[0] ? totalPriceAggregate[0].totalPrice : 0;
-    const avgPrice = (totalPrice / totalScooters).toFixed(2);
+    if (scooterStats.length === 0) {
+      // Handle case where there are no scooters in the database
+      res.json({
+        totalModels: 0,
+        totalPrice: 0,
+        avgPrice: 0,
+        mostExpensiveScooter: null,
+        recentlyAddedScooters: [],
+        cheapestScooter: null
+      });
+      return;
+    }
+
+    const { totalPrice, totalQuantity } = scooterStats[0];
+
+    // Total count of scooters
+    const totalModels = await scooterModel.countDocuments({});
+    // Most expensive scooter
+    const mostExpensiveScooter = await scooterModel.findOne().sort({ price: -1 });
+    // Cheapest scooter
+    const cheapestScooter = await scooterModel.findOne().sort({ price: 1 });
+    // Recently added scooters - last 3 scooters added to the database
+    const recentlyAddedScooters = await scooterModel.find({}).sort({ _id: -1 }).limit(3);
+    // Calculate the average price and round it to two decimal points
+    const avgPrice = (totalPrice / totalQuantity).toFixed(2);
 
     // Respond with the collected dashboard information
     res.json({
-      totalScooters,
+      totalModels,
+      totalQuantity,
       totalPrice,
       avgPrice,
       mostExpensiveScooter,
@@ -129,6 +152,8 @@ app.get('/api/dashboard', async (req, res) => {
   }
 });
 
+
+
 // Route for retrieving all scooters with search functionality
 app.get('/api/scooters', async (req, res) => {
   // Retrieve the search query from the request parameters
@@ -136,7 +161,6 @@ app.get('/api/scooters', async (req, res) => {
 
   // Define the search criteria based on the title field
   // This block of code was taken from following page: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp
-  // Creating object that will be used as a filter in a MongoDB query
   // Creating a case-insensitive regular expression (new RegExp(searchTerm, 'i'))
   // i - flag that indicates
   // ('? :') - check if searchTerm is truth of false
@@ -150,7 +174,6 @@ app.get('/api/scooters', async (req, res) => {
   // Respond with the list of scooters
   res.json(scooters);
 });
-
 
 // Route for retrieving a specific scooter by its identifier
 app.get('/api/scooter/:identifier', async (req, res) => {

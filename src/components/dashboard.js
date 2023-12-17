@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Card from 'react-bootstrap/Card';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 // Functional component for the Dashboard
 const Dashboard = () => {
@@ -21,74 +23,77 @@ const Dashboard = () => {
       });
   }, []);
 
-
+  {/* Display dashboard */}
   return (
-    <div className="d-flex justify-content-center align-items-center">
-      <div>
-        <div>
-          
-          <hr></hr>
-          <h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>DASHBOARD:</h4>
-          <hr></hr>
-          {/* Display total scooters card if data is available */}
-          {dashboardData.totalScooters && (
-            <Card style={{ width: '20rem', margin: '1rem' }}>
+    <div className="container mt-4">
+      <h4 className="text-center mb-4">DASHBOARD</h4>
+      <Row className="justify-content-center">
+        {dashboardData.totalQuantity && (
+          <Col md={4} classNasme="mb-4">
+            <Card>
               <Card.Body>
-                <Card.Title><h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>Total Scooters: {dashboardData.totalScooters}</h4></Card.Title>
+                <Card.Title className="text-center">Total Scooters Available</Card.Title>
+                <Card.Text className="text-center">{dashboardData.totalQuantity} scooters- {dashboardData.totalModels} TYPES</Card.Text>
               </Card.Body>
             </Card>
-          )}
-          {/* Display total price of all scooters card if data is available */}
-          {dashboardData.totalPrice && (
-            <Card style={{ width: '20rem', margin: '1rem' }}>
-              <Card.Body>
-                <Card.Title><h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>Total Price: ${dashboardData.totalPrice}</h4></Card.Title>
-              </Card.Body>
-            </Card>
-          )}
-          {/* Display total price of all scooters card if data is available */}
-          {dashboardData.totalPrice && (
-            <Card style={{ width: '20rem', margin: '1rem' }}>
-              <Card.Body>
-                <Card.Title><h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>Average Price: ${dashboardData.avgPrice}</h4></Card.Title>
-              </Card.Body>
-            </Card>
-          )}
-          {/* Display most expensive scooter card if data is available */}
-          {dashboardData.mostExpensiveScooter && (
-            <Card style={{ width: '20rem', margin: '1rem' }}>
-              <Card.Body>
-                <Card.Title><h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>{dashboardData.mostExpensiveScooter.title}</h4></Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">Most Expensive</Card.Subtitle>
-              </Card.Body>
-            </Card>
-          )}
-          {/* Display cheapest scooter card if data is available */}
-          {dashboardData.cheapestScooter && (
-            <Card style={{ width: '20rem', margin: '1rem' }}>
-              <Card.Body>
-                <Card.Title><h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>{dashboardData.cheapestScooter.title}</h4></Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">Cheapest</Card.Subtitle>
-              </Card.Body>
-            </Card>
-          )}
-        </div>
-        {/* Display recently added scooters card if data is available */}
-        {dashboardData.recentlyAddedScooters && (
-          <Card style={{ width: '20rem', margin: '1rem' }}>
-            <Card.Body>
-              <Card.Title><h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>Recently Added Scooters</h4></Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">Latest Additions</Card.Subtitle>
-              <Card.Text>
-                {dashboardData.recentlyAddedScooters.map(scooter => (
-                  <div key={scooter._id}>{scooter.title}</div>
-                ))}
-              </Card.Text>
-            </Card.Body>
-          </Card>
+          </Col>
         )}
-      </div>
-      
+        {dashboardData.totalPrice && (
+          <Col md={4} className="mb-4">
+            <Card>
+              <Card.Body>
+                <Card.Title className="text-center">Total Price of all Available Scooters</Card.Title>
+                <Card.Text className="text-center">${dashboardData.totalPrice}</Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+        )}
+        {dashboardData.avgPrice && (
+          <Col md={4} className="mb-4">
+            <Card>
+              <Card.Body>
+                <Card.Title className="text-center">Average Price</Card.Title>
+                <Card.Text className="text-center">${dashboardData.avgPrice}</Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+        )}
+        {dashboardData.mostExpensiveScooter && (
+          <Col md={4} className="mb-4">
+            <Card>
+              <Card.Body>
+                <Card.Title className="text-center">Most Expensive</Card.Title>
+                <Card.Subtitle className="mb-2 text-muted text-center">{dashboardData.mostExpensiveScooter.title}</Card.Subtitle>
+              </Card.Body>
+            </Card>
+          </Col>
+        )}
+        {dashboardData.cheapestScooter && (
+          <Col md={4} className="mb-4">
+            <Card>
+              <Card.Body>
+                <Card.Title className="text-center">Cheapest</Card.Title>
+                <Card.Subtitle className="mb-2 text-muted text-center">{dashboardData.cheapestScooter.title}</Card.Subtitle>
+              </Card.Body>
+            </Card>
+          </Col>
+        )}
+        {dashboardData.recentlyAddedScooters && (
+          <Col md={6} className="mb-4">
+            <Card>
+              <Card.Body>
+                <Card.Title className="text-center">Recently Added Scooters</Card.Title>
+                <Card.Subtitle className="mb-2 text-muted text-center">Latest Additions</Card.Subtitle>
+                <Card.Text>
+                  {dashboardData.recentlyAddedScooters.map(scooter => (
+                    <div key={scooter._id}>{scooter.title}</div>
+                  ))}
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+        )}
+      </Row>
     </div>
   );
 };

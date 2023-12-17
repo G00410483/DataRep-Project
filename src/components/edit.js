@@ -14,6 +14,7 @@ export default function Edit() {
     const [brand, setBrand] = useState('');
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
+    const [stock, setStock] = useState('');
 
      // Getting the navigate function 
     const navigate = useNavigate();
@@ -30,6 +31,7 @@ export default function Edit() {
                     setBrand(response.data.brand);
                     setPrice(response.data.price);
                     setDescription(response.data.description);
+                    setStock(response.data.stock);
                 })
                 .catch(
                     (error) => {
@@ -49,7 +51,8 @@ export default function Edit() {
             cover: cover,
             brand: brand,
             price: price,
-            description: description
+            description: description,
+            stock: stock
         }
 
         // Making an asynchronous PUT request to update the product details on the server
@@ -70,8 +73,10 @@ export default function Edit() {
             <h4 style={{ textAlign: 'center', lineHeight: '1.5'  }}>EDIT THE DETAILS OF THE PRODUCT:</h4>
             <hr></hr>
             // Functional component for displaying a scooter item
+            {/* Form */}
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
+                    {/* Edit name */}
                     <label>EDIT NAME:</label>
                     <input
                         type="text"
@@ -81,6 +86,7 @@ export default function Edit() {
                     />
                 </div>
                 <div className="form-group">
+                    {/* Edit cover */}
                     <label>EDIT COVER:</label>
                     <input
                         type="text"
@@ -90,6 +96,7 @@ export default function Edit() {
                     />
                 </div>
                 <div className="form-group">
+                    {/* Edit brand */}
                     <label>EDIT BRAND:</label>
                     <input
                         type="text"
@@ -99,6 +106,7 @@ export default function Edit() {
                     />
                 </div>
                 <div className="form-group">
+                    {/* Edit price */}
                     <label>EDIT PRICE:</label>
                     <input
                         type="text"
@@ -108,6 +116,19 @@ export default function Edit() {
                     />
                 </div>
                 <div className="form-group">
+                    {/* Edit quantity */}
+                    <label>EDIT QUANTITY:</label>
+                    <input
+                        type="number"
+                        min="1"
+                        max="10"
+                        className="form-control"
+                        value={stock}
+                        onChange={(e) => { setStock(e.target.value) }}
+                    />
+                </div>
+                <div className="form-group">
+                    {/* Edit description */}
                     <label>EDIT DESCRIPTION:</label>
                     <textarea
                         type="text"

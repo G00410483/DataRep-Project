@@ -12,7 +12,7 @@ function ScooterItem(props) {
             <div className="row">
                 <div className="col-md-6">
                     <Card style={{ width: '18rem' }}>
-                         {/* Title */}                        
+                        {/* Title */}
                         <Card.Header>{props.myScooter.title}</Card.Header>
                         <Card.Body>
                             <blockquote className="blockquote mb-0">
@@ -25,7 +25,7 @@ function ScooterItem(props) {
                                         />
                                     </Carousel.Item>
                                     <Carousel.Item>
-                                         {/* Cover */}
+                                        {/* Cover */}
                                         <img
                                             className="d-block w-100"
                                             src={props.myScooter.cover}  // Replace with the second image source
@@ -35,7 +35,7 @@ function ScooterItem(props) {
                                     </Carousel.Item>
                                 </Carousel>
                                 <footer>
-                                     {/* Price */}
+                                    {/* Price */}
                                     ${props.myScooter.price}
                                 </footer>
                             </blockquote>
@@ -45,26 +45,31 @@ function ScooterItem(props) {
                 <div className="col-md-6">
                     <Card style={{ width: '18rem' }}>
                         <Card.Body>
-                             {/* Brand */}
+                            {/* Brand */}
                             <Card.Title>{props.myScooter.brand}</Card.Title>
                             <hr></hr>
-                             {/* Description */}
+                            {/* Description */}
                             <Card.Subtitle style={{ fontSize: 'small', lineHeight: '1.5' }} className="mb-2 text-muted">
                                 {props.myScooter.description}
                             </Card.Subtitle>
                             <hr></hr>
-                             {/* Edit and delete buttons */}
+                            <Card.Subtitle style={{ fontSize: 'small', lineHeight: '1.5' }} className="mb-2 text-muted">
+                                Number of Items in stock: {props.myScooter.stock}
+                            </Card.Subtitle>
+                            <hr></hr>
+                            {/* Edit and delete buttons */}
                             <Link to={'/edit/' + props.myScooter._id} className='btn btn-primary'>Edit</Link>
-                             {/* Opens edit page */}
+                            {/* Opens edit page */}
                             <Button variant='danger' onClick={(e) => {
                                 axios.delete('http://localhost:4000/api/scooter/' + props.myScooter._id)
                                     .then((res) => {
                                         let reload = props.reload();
                                     })
                                     .catch();
-                            {/* Removes item from the database */}
+                                {/* Removes item from the database */ }
                             }}>Delete</Button>
                         </Card.Body>
+                       
                     </Card>
                 </div>
             </div>

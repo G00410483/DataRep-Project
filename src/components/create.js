@@ -10,6 +10,7 @@ function Create() {
     const [brand, setBrand] = useState('');
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
+    const [stock, setStock] = useState('');
 
      // Function to handle form submission
     const handleSubmit = (e) => {
@@ -21,7 +22,8 @@ function Create() {
             cover: cover,
             brand: brand,
             price: price,
-            description: description
+            description: description,
+            stock: stock
         };
 
         axios.post('http://localhost:4000/api/scooter/', scooter)
@@ -34,8 +36,10 @@ function Create() {
             <hr></hr>
             <h4 style={{ textAlign: 'center', lineHeight: '1.5'  }}>ENTER THE DETAILS OF THE NEW PRODUCT:</h4>
             <hr></hr>
+            {/* Form */}
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
+                    {/* Name */}
                     <label>ADD NAME:</label>
                     <input
                         type="text"
@@ -45,6 +49,7 @@ function Create() {
                     />
                 </div>
                 <div className="form-group">
+                    {/* Cover */}
                     <label>ADD COVER:</label>
                     <input
                         type="text"
@@ -54,6 +59,7 @@ function Create() {
                     />
                 </div>
                 <div className="form-group">
+                    {/* Brand */}
                     <label>ADD BRAND:</label>
                     <input
                         type="text"
@@ -63,6 +69,7 @@ function Create() {
                     />
                 </div>
                 <div className="form-group">
+                    {/* Price */}
                     <label>ADD PRICE:</label>
                     <input
                         type="text"
@@ -72,6 +79,19 @@ function Create() {
                     />
                 </div>
                 <div className="form-group">
+                    {/* Price */}
+                    <label>ADD QUANTITY:</label>
+                    <input
+                        type="number"
+                        min="1"
+                        max="10"
+                        className="form-control"
+                        value={stock}
+                        onChange={(e) => { setStock(e.target.value) }}
+                    />
+                </div>
+                <div className="form-group">
+                    {/* Description */}
                     <label>ADD DESCRIPTION:</label>
                     <textarea
                         type="text"
