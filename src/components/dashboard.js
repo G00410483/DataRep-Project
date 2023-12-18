@@ -26,7 +26,9 @@ const Dashboard = () => {
   {/* Display dashboard */}
   return (
     <div className="container mt-4">
+      <hr></hr>
       <h4 className="text-center mb-4">DASHBOARD</h4>
+      <hr></hr>
       <Row className="justify-content-center">
         {dashboardData.totalQuantity && (
           <Col md={4} classNasme="mb-4">

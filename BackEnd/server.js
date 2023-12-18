@@ -30,7 +30,7 @@ async function main() {
   await mongoose.connect('mongodb+srv://dvlasic000:admin@cluster0.xaeynea.mongodb.net/?retryWrites=true&w=majority');
 }
 
-// This code defines a Mongoose schedma for a scooter in a MongoDB database
+// This code defines a Mongoose scheda for a scooter in a MongoDB database
 const scooterSchema = new mongoose.Schema({
   title: String,
   cover: String,
@@ -40,8 +40,17 @@ const scooterSchema = new mongoose.Schema({
   stock: String
 });
 
+// Define a schema for orders
+const orderSchema = new mongoose.Schema({
+  item: String,
+  name: String,
+  address: String,
+  orderDate: { type: Date, default: Date.now },
+});
+
 // Import the mongoose library to interact with MongoDB
 const scooterModel = mongoose.model('ScooterModel', scooterSchema);
+const orderModel = mongoose.model('OrderModel', orderSchema);
 
 // Define a route to handle DELETE requests for a specific scooter by ID
 app.delete('/api/scooter/:id', async (req, res) => {
@@ -152,8 +161,6 @@ app.get('/api/dashboard', async (req, res) => {
   }
 });
 
-
-
 // Route for retrieving all scooters with search functionality
 app.get('/api/scooters', async (req, res) => {
   // Retrieve the search query from the request parameters
@@ -184,6 +191,82 @@ app.get('/api/scooter/:identifier', async (req, res) => {
   let scooter = await scooterModel.findById(req.params.identifier);
   // Respond with the retrieved scooter
   res.send(scooter);
+});
+
+// Route for retrieving all orders
+app.get('/api/orders', async (req, res) => {
+  try {
+    const orders = await orderModel.find();
+    res.json(orders);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Define a route to handle POST requests to create a new order
+app.post('/api/order', async (req, res) => {
+  const { item, name, address } = req.body;
+
+  if (!item || !name || !address) {
+    return res.status(400).json({ error: "Missing required information." });
+  }
+
+  try {
+    // Find the scooter by title
+    const scooter = await scooterModel.findOne({ title: item });
+
+    if (!scooter) {
+      return res.status(404).json({ error: "Scooter not found." });
+    }
+
+    if (scooter.stock <= 0) {
+      return res.status(400).json({ error: "Scooter is out of stock." });
+    }
+
+    // Create a new order document
+    const order = new orderModel({
+      item: item,
+      name: name,
+      address: address,
+    });
+
+    // Decrease the stock of the scooter by 1
+    scooter.stock = String(Number(scooter.stock) - 1);
+
+    // Save the order and update the scooter in the database
+    await order.save();
+    await scooter.save();
+
+    res.status(201).json(order);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Define a route to handle DELETE requests for a specific order by ID
+app.delete('/api/order/:id', async (req, res) => {
+  try {
+    // Find and delete the order by ID
+    const deletedOrder = await orderModel.findByIdAndDelete(req.params.id);
+
+    if (!deletedOrder) {
+      return res.status(404).json({ error: "Order not found." });
+    }
+
+    // Update the scooter's stock (assuming you have a reference to the scooter in the order)
+    const scooter = await scooterModel.findOne({ title: deletedOrder.item });
+    if (scooter) {
+      scooter.stock = String(Number(scooter.stock) + 1);
+      await scooter.save();
+    }
+
+    res.json(deletedOrder);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 // Starting the server and listening on the specified port

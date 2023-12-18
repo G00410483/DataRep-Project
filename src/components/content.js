@@ -19,6 +19,7 @@ function Content() {
                                 className="d-block w-100"
                                 src={imageUrl}
                                 alt={`Slide ${index + 1}`}
+                                style={{ height: '300px' }}
                             />
                         </Carousel.Item>
                     ))}

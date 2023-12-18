@@ -12,6 +12,8 @@ import Read from './components/read';
 import Edit from './components/edit';
 import Content from './components/content';
 import Dashboard from './components/dashboard'; 
+import Order from './components/order'; 
+import OrderList from './components/orderlist';
 
 // Main function component for the entire application
 function App() {
@@ -30,6 +32,8 @@ function App() {
             <Nav.Link href="/create">ADD</Nav.Link>
             <Nav.Link href="/read">DISPLAY</Nav.Link>
             <Nav.Link href="/dashboard">ANALYZE</Nav.Link>
+            <Nav.Link href="/order">ORDER</Nav.Link>
+            <Nav.Link href="/orderlist">LIST OF ORDERS</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
@@ -41,6 +45,8 @@ function App() {
         <Route path='/create' element={<Create></Create>}></Route>
         <Route path='/edit/:id' element={<Edit></Edit>}></Route>
         <Route path='/dashboard' element={<Dashboard></Dashboard>}></Route>
+        <Route path='/order' element={<Order></Order>}></Route>
+        <Route path='/orderlist' element={<OrderList></OrderList>}></Route>
       </Routes>
     </div>
     </BrowserRouter>
