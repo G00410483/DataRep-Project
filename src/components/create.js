@@ -1,5 +1,6 @@
 // Importing necessary React hooks and Axios for making HTTP requests
 import { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 // Functional component for creating a new book
@@ -12,12 +13,15 @@ function Create() {
     const [description, setDescription] = useState('');
     const [stock, setStock] = useState('');
 
-     // Function to handle form submission
+    // Getting the navigate function 
+    const navigate = useNavigate();
+
+    // Function to handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
 
         // Create a scooter object with form input values
-        const scooter = {   
+        const scooter = {
             title: title,
             cover: cover,
             brand: brand,
@@ -27,14 +31,21 @@ function Create() {
         };
 
         axios.post('http://localhost:4000/api/scooter/', scooter)
-            .then(/* Handle success if needed */)
-            .catch(/* Handle errors if needed */);
+            .then((res) => {
+                alert("Scooter added successfully!");
+                // Navigating to the 'read' page after successful update
+                navigate('/');
+            })
+            .catch(
+                (error) => {
+                    console.log(error)
+                });
     }
 
     return (
         <div style={{ maxWidth: '400px', margin: 'auto', padding: '20px', border: '1px solid #ccc', borderRadius: '8px' }}>
             <hr></hr>
-            <h4 style={{ textAlign: 'center', lineHeight: '1.5'  }}>ENTER THE DETAILS OF THE NEW PRODUCT:</h4>
+            <h4 style={{ textAlign: 'center', lineHeight: '1.5' }}>ENTER THE DETAILS OF THE NEW PRODUCT:</h4>
             <hr></hr>
             {/* Form */}
             <form onSubmit={handleSubmit}>

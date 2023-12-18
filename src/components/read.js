@@ -47,7 +47,6 @@ function Read() {
                 }
             )
     }
-
     const handleSearch = () => {
         // Make an HTTP GET request with the search term
         axios.get(`http://localhost:4000/api/scooters?search=${searchTerm}`)

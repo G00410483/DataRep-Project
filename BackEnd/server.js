@@ -5,23 +5,33 @@ const port = 4000; // Setting the port for the server
 const cors = require('cors'); // Importing CORS for cross-origin resource sharing
 
 // Applying CORS middleware to handle cross-origin requests
+// Enable CORS middleware using the cors() function
 app.use(cors());
+// Define a custom middleware function that sets CORS headers for incoming HTTP requests
 app.use(function (req, res, next) {
+  // Allow requests from any origin by setting the "Access-Control-Allow-Origin" header to "*".
   res.header("Access-Control-Allow-Origin", "*");
+  // Define the allowed HTTP methods that can be used in cross-origin requests.
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept");
+  // Specify the allowed headers in the incoming requests
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  // Call the next middleware or route handler to continue processing the request.
   next();
 });
 
 // Configuring body-parser middleware for handling JSON and URL-encoded data
 const bodyParser = require("body-parser");
+// Configure Express to use the body-parser middleware for parsing request bodies.
+// Parse URL-encoded data and populate the `req.body` object.
 app.use(bodyParser.urlencoded({ extended: false }));
+// Parse JSON data and populate the `req.body` object.
 app.use(bodyParser.json());
 
 // Connecting to MongoDB using Mongoose
 const mongoose = require('mongoose');
 
+// Execute the asynchronous function main()
+ // If the main function succeeds, this block is executed
 main().catch(err => console.log(err));
 
 // Async function to connect to MongoDB
@@ -30,7 +40,9 @@ async function main() {
   await mongoose.connect('mongodb+srv://dvlasic000:admin@cluster0.xaeynea.mongodb.net/?retryWrites=true&w=majority');
 }
 
-// This code defines a Mongoose scheda for a scooter in a MongoDB database
+// Schemas
+
+// Define schema for scooters
 const scooterSchema = new mongoose.Schema({
   title: String,
   cover: String,
@@ -45,6 +57,7 @@ const orderSchema = new mongoose.Schema({
   item: String,
   name: String,
   address: String,
+  price: String,
   orderDate: { type: Date, default: Date.now },
 });
 
@@ -52,6 +65,7 @@ const orderSchema = new mongoose.Schema({
 const scooterModel = mongoose.model('ScooterModel', scooterSchema);
 const orderModel = mongoose.model('OrderModel', orderSchema);
 
+// SCOOTER ROUTES
 // Define a route to handle DELETE requests for a specific scooter by ID
 app.delete('/api/scooter/:id', async (req, res) => {
   // Log the request ID to the console
@@ -79,6 +93,7 @@ app.post('/api/scooter', (req, res) => {
 
   // Use mongoose's create method to insert a new scooter into the database
   scooterModel.create({
+    // Define the properties and values for the new document
     title: req.body.title,
     cover: req.body.cover,
     brand: req.body.brand,
@@ -93,7 +108,6 @@ app.post('/api/scooter', (req, res) => {
     .catch(() => { res.send("SCOOTER NOT CREATED") });
 });
 
-// Route for retrieving dashboard information
 // Route for retrieving dashboard information
 app.get('/api/dashboard', async (req, res) => {
   try {
@@ -118,19 +132,7 @@ app.get('/api/dashboard', async (req, res) => {
       }
     ]);
 
-    if (scooterStats.length === 0) {
-      // Handle case where there are no scooters in the database
-      res.json({
-        totalModels: 0,
-        totalPrice: 0,
-        avgPrice: 0,
-        mostExpensiveScooter: null,
-        recentlyAddedScooters: [],
-        cheapestScooter: null
-      });
-      return;
-    }
-
+    // Extracting properties from an object
     const { totalPrice, totalQuantity } = scooterStats[0];
 
     // Total count of scooters
@@ -193,11 +195,22 @@ app.get('/api/scooter/:identifier', async (req, res) => {
   res.send(scooter);
 });
 
+
+
+// ORDER ROUTES 
 // Route for retrieving all orders
 app.get('/api/orders', async (req, res) => {
   try {
+    // Display all orders from database
     const orders = await orderModel.find();
-    res.json(orders);
+
+    // Total count of scooters
+    const totalOrders = await scooterModel.countDocuments({});
+
+    res.json(
+      orders,
+      totalOrders
+      );
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -206,29 +219,36 @@ app.get('/api/orders', async (req, res) => {
 
 // Define a route to handle POST requests to create a new order
 app.post('/api/order', async (req, res) => {
-  const { item, name, address } = req.body;
+  const { item, name, address, price } = req.body;
 
+  // Checj uf required information is missing 
   if (!item || !name || !address) {
+    // If any of the required information is missing, resopnd with 400 status
     return res.status(400).json({ error: "Missing required information." });
   }
 
   try {
-    // Find the scooter by title
+    // Find a scooter in the database by its title
     const scooter = await scooterModel.findOne({ title: item });
 
+    // Check if scooter with specified title exists
     if (!scooter) {
+      // If scooter is not found respond with 404 status
       return res.status(404).json({ error: "Scooter not found." });
     }
 
+    // Check if the scooter is out of stock 
     if (scooter.stock <= 0) {
+      // If scooter is out of stocm, respond with 400 status
       return res.status(400).json({ error: "Scooter is out of stock." });
     }
 
-    // Create a new order document
+    // Create a new order document with provided properties
     const order = new orderModel({
       item: item,
       name: name,
       address: address,
+      price: price
     });
 
     // Decrease the stock of the scooter by 1
@@ -238,6 +258,7 @@ app.post('/api/order', async (req, res) => {
     await order.save();
     await scooter.save();
 
+    // Respond with status
     res.status(201).json(order);
   } catch (error) {
     console.error(error);
@@ -251,17 +272,20 @@ app.delete('/api/order/:id', async (req, res) => {
     // Find and delete the order by ID
     const deletedOrder = await orderModel.findByIdAndDelete(req.params.id);
 
+    // If order not found respond with status
     if (!deletedOrder) {
       return res.status(404).json({ error: "Order not found." });
     }
 
     // Update the scooter's stock (assuming you have a reference to the scooter in the order)
     const scooter = await scooterModel.findOne({ title: deletedOrder.item });
+    // If scooter is found
     if (scooter) {
+      // Increments stock so it's same like before this order
       scooter.stock = String(Number(scooter.stock) + 1);
+      // Save the state of scooter in the database
       await scooter.save();
     }
-
     res.json(deletedOrder);
   } catch (error) {
     console.error(error);

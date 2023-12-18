@@ -58,6 +58,7 @@ export default function Edit() {
         // Making an asynchronous PUT request to update the product details on the server
         axios.put('http://localhost:4000/api/scooter/' + id, scooter)
             .then((res) => {
+                alert("Scooter updated successfully!");
                 // Navigating to the 'read' page after successful update
                 navigate('/read');
             })

@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 
 // Importing custom components
@@ -29,11 +30,15 @@ function App() {
           <Navbar.Brand href="/"></Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="/">HOME</Nav.Link>
-            <Nav.Link href="/create">ADD</Nav.Link>
-            <Nav.Link href="/read">DISPLAY</Nav.Link>
+            <NavDropdown title="ADD" id="basic-nav-dropdown">
+              <NavDropdown.Item href="/create">SCOOTER</NavDropdown.Item>
+              <NavDropdown.Item href="/order">ORDER</NavDropdown.Item>
+            </NavDropdown>
+            <NavDropdown title="DISPLAY" id="basic-nav-dropdown">
+              <NavDropdown.Item href="/read">SCOOTER</NavDropdown.Item>
+              <NavDropdown.Item href="/orderlist">ORDER</NavDropdown.Item>
+            </NavDropdown>
             <Nav.Link href="/dashboard">ANALYZE</Nav.Link>
-            <Nav.Link href="/order">ORDER</Nav.Link>
-            <Nav.Link href="/orderlist">LIST OF ORDERS</Nav.Link>
           </Nav>
         </Container>
       </Navbar>

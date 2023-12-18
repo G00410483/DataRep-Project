@@ -3,6 +3,7 @@ import axios from "axios";
 import { Button } from "react-bootstrap";
 
 function OrderList() {
+  // State variable to store orders data
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
@@ -10,12 +11,13 @@ function OrderList() {
     axios.get("http://localhost:4000/api/orders")
 
       .then((response) => {
+        // Update the orders state with the fetched data
         setOrders(response.data);
       })
       .catch((error) => {
         console.error("Error fetching orders:", error);
       });
-  }, []);
+  }, []); // The empty dependency array ensures that this effect runs once on mount
 
   const handleDeleteOrder = (orderId) => {
     // Send a DELETE request to delete the order by ID
@@ -40,6 +42,7 @@ function OrderList() {
             <th>ITEM</th>
             <th>NAME</th>
             <th>ADDRESS</th>
+            <th>PRICE</th>
             <th>ORDER DATE</th>
           </tr>
         </thead>
@@ -49,6 +52,7 @@ function OrderList() {
               <td>{order.item}</td>
               <td>{order.name}</td>
               <td>{order.address}</td>
+              <td>$ {order.price}</td>
               <td>{new Date(order.orderDate).toLocaleString()}</td>
               <td>
               <Button
@@ -59,6 +63,7 @@ function OrderList() {
             </tr>
           ))}
         </tbody>
+        <p>TOTAL ORDERS: {}</p>
       </table>
     </div>
   );
