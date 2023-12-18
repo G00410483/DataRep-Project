@@ -3,6 +3,7 @@ Overview
 The Electric Scooter Store web application is a full-stack JavaScript application that provides an online platform for managing electric scooter products and orders. This README document outlines the functionality of the application, including its server-side operations using Node.js with Express and MongoDB, and its client-side interface built with React.
 
 Server-Side: Node.js and Express
+
 Key Dependencies
 express: A web application framework for Node.js.
 mongoose: An Object Data Modeling (ODM) library for MongoDB and Node.js.
@@ -14,14 +15,17 @@ REST API Endpoints
 CRUD operations for scooters (/api/scooter/) and orders (/api/order/).
 Additional routes for dashboard metrics (/api/dashboard) and scooter retrieval with search functionality (/api/scooters).
 Client-Side: React
+
 Key Components
 Create, Read, Edit: Components for creating, reading, and editing scooter information.
 Dashboard: Displays statistics and analytics related to scooters.
 Order, OrderList: Manage orders, including creating new orders and listing all orders.
 Content: A landing page component with a carousel and introductory information.
+
 Bootstrap for Styling
 The application uses React Bootstrap components for UI design, ensuring a responsive and modern interface.
 Application Features
+
 Scooter Management: Users can add, view, edit, and delete scooter details. Each scooter has attributes like title, brand, price, description, and stock quantity.
 Order Processing: Users can place orders for scooters. The application handles stock updates and order validations.
 Dashboard Analytics: Provides insights into total scooter models, quantity, pricing analytics, and recent additions.
