@@ -31,7 +31,7 @@ app.use(bodyParser.json());
 const mongoose = require('mongoose');
 
 // Execute the asynchronous function main()
- // If the main function succeeds, this block is executed
+// If the main function succeeds, this block is executed
 main().catch(err => console.log(err));
 
 // Async function to connect to MongoDB
@@ -102,7 +102,7 @@ app.post('/api/scooter', (req, res) => {
     stock: req.body.description
   })
 
-     // Send a success message if the scooter is created
+    // Send a success message if the scooter is created
     .then(() => { res.send("NEW SCOOTER CREATED") })
     // Send an error message if the scooter creation fails
     .catch(() => { res.send("SCOOTER NOT CREATED") });
@@ -189,7 +189,7 @@ app.get('/api/scooter/:identifier', async (req, res) => {
   // Log the identifier parameter from the request
   console.log(req.params.identifier);
 
-   // Retrieve the scooter with the specified identifier from the database
+  // Retrieve the scooter with the specified identifier from the database
   let scooter = await scooterModel.findById(req.params.identifier);
   // Respond with the retrieved scooter
   res.send(scooter);
@@ -204,13 +204,10 @@ app.get('/api/orders', async (req, res) => {
     // Display all orders from database
     const orders = await orderModel.find();
 
-    // Total count of scooters
-    const totalOrders = await scooterModel.countDocuments({});
-
     res.json(
       orders,
-      totalOrders
-      );
+
+    );
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -221,9 +218,9 @@ app.get('/api/orders', async (req, res) => {
 app.post('/api/order', async (req, res) => {
   const { item, name, address, price } = req.body;
 
-  // Checj uf required information is missing 
+  // Check if required information is missing 
   if (!item || !name || !address) {
-    // If any of the required information is missing, resopnd with 400 status
+    // If any of the required information is missing, respond with 400 status
     return res.status(400).json({ error: "Missing required information." });
   }
 
@@ -239,7 +236,7 @@ app.post('/api/order', async (req, res) => {
 
     // Check if the scooter is out of stock 
     if (scooter.stock <= 0) {
-      // If scooter is out of stocm, respond with 400 status
+      // If scooter is out of stock, respond with 400 status
       return res.status(400).json({ error: "Scooter is out of stock." });
     }
 

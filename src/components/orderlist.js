@@ -15,7 +15,7 @@ function OrderList() {
         setOrders(response.data);
       })
       .catch((error) => {
-        console.error("Error fetching orders:", error);
+        console.error(error);
       });
   }, []); // The empty dependency array ensures that this effect runs once on mount
 
@@ -63,7 +63,6 @@ function OrderList() {
             </tr>
           ))}
         </tbody>
-        <p>TOTAL ORDERS: {}</p>
       </table>
     </div>
   );

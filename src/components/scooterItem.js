@@ -11,7 +11,7 @@ function ScooterItem(props) {
         <div className="d-flex justify-content-center align-items-center">
             <div className="row">
                 <div className="col-md-6">
-                    <Card style={{ width: '18rem' }}>
+                    <Card style={{ width: '18rem', margin: '20px'}}>
                         {/* Title */}
                         <Card.Header>{props.myScooter.title}</Card.Header>
                         <Card.Body>
@@ -43,7 +43,7 @@ function ScooterItem(props) {
                     </Card>
                 </div>
                 <div className="col-md-6">
-                    <Card style={{ width: '18rem' }}>
+                    <Card style={{ width: '18rem', margin: '20px' }}>
                         <Card.Body>
                             {/* Brand */}
                             <Card.Title>{props.myScooter.brand}</Card.Title>

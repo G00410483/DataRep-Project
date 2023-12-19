@@ -90,7 +90,17 @@ function Create() {
                     />
                 </div>
                 <div className="form-group">
-                    {/* Price */}
+                    {/* Description */}
+                    <label>ADD DESCRIPTION:</label>
+                    <textarea
+                        type="text"
+                        className="form-control"
+                        value={description}
+                        onChange={(e) => { setDescription(e.target.value) }}
+                    />
+                </div>
+                <div className="form-group">
+                    {/* Quantity */}
                     <label>ADD QUANTITY:</label>
                     <input
                         type="number"
@@ -99,16 +109,6 @@ function Create() {
                         className="form-control"
                         value={stock}
                         onChange={(e) => { setStock(e.target.value) }}
-                    />
-                </div>
-                <div className="form-group">
-                    {/* Description */}
-                    <label>ADD DESCRIPTION:</label>
-                    <textarea
-                        type="text"
-                        className="form-control"
-                        value={description}
-                        onChange={(e) => { setDescription(e.target.value) }}
                     />
                 </div>
                 <div style={{ textAlign: 'center' }}>

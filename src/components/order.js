@@ -67,7 +67,6 @@ function Order() {
     const selectedScooterId = e.target.value;
 
     // Use the find method to search for selected scooter by its ID
-
     const scooter = scooters.find((s) => s._id === selectedScooterId);
     // Set the selectedScooter state variable to the found scooter object
     setSelectedScooter(scooter);
@@ -80,6 +79,7 @@ function Order() {
       <hr />
       <form onSubmit={handleSubmit}>
         <div className="form-group">
+          {/* Adding customer name */}
           <label>ADD CUSTOMER NAME:</label>
           <input
             type="text"
@@ -89,6 +89,7 @@ function Order() {
           />
         </div>
         <div className="form-group">
+          {/* Adding customer address */}
           <label>ADD CUSTOMER ADDRESS:</label>
           <input
             type="text"
@@ -97,6 +98,7 @@ function Order() {
             onChange={(e) => setAddress(e.target.value)}
           />
         </div>
+        {/* Selecting the scooter */}
         <div className="form-group">
           <label>SELECT SCOOTER:</label>
           <select
