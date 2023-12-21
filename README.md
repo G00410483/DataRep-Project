@@ -1,4 +1,5 @@
 README for Electric Scooter Store Web Application
+
 Overview
 The Electric Scooter Store web application is a full-stack JavaScript application that provides an online platform for managing electric scooter products and orders. This README document outlines the functionality of the application, including its server-side operations using Node.js with Express and MongoDB, and its client-side interface built with React.
 
