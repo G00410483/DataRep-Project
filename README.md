@@ -9,6 +9,7 @@ express: A web application framework for Node.js.
 mongoose: An Object Data Modeling (ODM) library for MongoDB and Node.js.
 cors: A package for providing Express middleware to enable Cross-Origin Resource Sharing.
 body-parser: Middleware for parsing incoming request bodies in a middleware.
+
 Database Connection
 MongoDB is used as the database, with Mongoose for schema definition and database interaction.
 REST API Endpoints
@@ -24,8 +25,8 @@ Content: A landing page component with a carousel and introductory information.
 
 Bootstrap for Styling
 The application uses React Bootstrap components for UI design, ensuring a responsive and modern interface.
-Application Features
 
+Application Features
 Scooter Management: Users can add, view, edit, and delete scooter details. Each scooter has attributes like title, brand, price, description, and stock quantity.
 Order Processing: Users can place orders for scooters. The application handles stock updates and order validations.
 Dashboard Analytics: Provides insights into total scooter models, quantity, pricing analytics, and recent additions.
@@ -41,12 +42,14 @@ Client Setup:
 
 The client-side of the application is built with React.
 Use npm start in the client directory to run the React application.
-Database:
 
+Database:
 Ensure MongoDB is set up and the connection URI is provided in the server code.
+
 Security and Best Practices
 The application uses CORS to handle cross-origin requests securely.
 MongoDB connection is managed using Mongoose with proper error handling.
 Input validation and error handling are crucial for both server and client sides.
+
 Conclusion
 The Electric Scooter Store application exemplifies a full-stack web application integrating backend technologies (Node.js, Express, MongoDB) with a React frontend. It provides a comprehensive platform for managing electric scooters and orders, demonstrating CRUD operations, database interactions, and a user-friendly interface.
